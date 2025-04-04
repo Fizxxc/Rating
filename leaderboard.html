@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rating for Delibo Market</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background-color: #f8f9fa;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .poll-container {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+        .poll-container h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .option {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease-in-out;
+        }
+        .option.good {
+            background: #28a745;
+            color: white;
+        }
+        .option.good:hover {
+            background: #218838;
+        }
+        .option.average {
+            background: #ffc107;
+            color: black;
+        }
+        .option.average:hover {
+            background: #e0a800;
+        }
+        .option.bad {
+            background: #dc3545;
+            color: white;
+        }
+        .option.bad:hover {
+            background: #c82333;
+        }
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #28a745;
+        }
+        @media (max-width: 480px) {
+            .poll-container {
+                width: 100%;
+                padding: 20px;
+            }
+            .option {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="poll-container">
+        <h2>Bagaimana pengalaman Anda dengan Delibo Market?</h2>
+        <button class="option good" onclick="vote(0)">Sangat Baik ⭐⭐⭐⭐⭐</button>
+        <button class="option good" onclick="vote(1)">Baik ⭐⭐⭐⭐</button>
+        <button class="option average" onclick="vote(2)">Cukup ⭐⭐⭐</button>
+        <button class="option bad" onclick="vote(3)">Buruk ⭐⭐</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        function vote(optionIndex) {
+            const botToken = '7250228481:AAG-C6TQMlIH8g0MZgEocnyNuaKRUaWzpYE';
+            const chatId = '6450551010';
+            const options = ["Sangat Baik ⭐⭐⭐⭐⭐", "Baik ⭐⭐⭐⭐", "Cukup ⭐⭐⭐", "Buruk ⭐⭐"];
+            
+            const text = `\u2728 *Hasil Polling* \u2728\n\n` +
+                         `*Bagaimana pengalaman Anda dengan Delibo Market?*\n\n` +
+                         `\u2799 *Pilihan Anda:* ${options[optionIndex]}\n\n`;
+            
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text: text, parse_mode: 'Markdown' })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('message').innerText = 'Terima kasih kak udah ngisi bintangnyaa :)';
+            })
+            .catch(error => {
+                document.getElementById('message').innerText = 'Terjadi kesalahan, coba lagi.';
+            });
+        }
+    </script>
+</body>
+</html>
